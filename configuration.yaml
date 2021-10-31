@@ -1,0 +1,24 @@
+# Configure a default setup of Home Assistant (frontend, api, etc)
+default_config:
+
+# Text to speech
+tts:
+  - platform: watson_tts
+    watson_apikey: !secret watson_api_key
+    service_name: say
+
+group: !include groups.yaml
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml
+
+emulated_hue:
+  listen_port: 80
+
+nest:
+  client_id: !secret nest_client_id
+  client_secret: !secret nest_client_secret
+  # "Project ID" in the Device Access Console
+  project_id: !secret nest_project_id
+  # Provide the full path exactly as shown under "Subscription name" in Google Cloud Console
+  subscriber_id: !secret nest_subscriber_id

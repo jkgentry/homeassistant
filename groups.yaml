@@ -1,0 +1,5 @@
+mainspeakers:
+  name: mainspeakers
+  entities:
+    - media_player.family_room
+    - media_player.kitchen

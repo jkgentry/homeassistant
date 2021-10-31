@@ -1,0 +1,24 @@
+turn_on_tv:
+  sequence:
+  - service: media_player.turn_off
+    target:
+      area_id: living_room
+  mode: single
+  alias: Turn off the living room
+turn_on_tv_2:
+  alias: Turn On TV
+  sequence:
+  - service: media_player.turn_on
+    target:
+      device_id:
+      - 4b2619ed9b04851ccc0326e91ccbf90c
+      - 7efdc3061eba08e4bd760f4c46ab461d
+  mode: single
+speak_on_mainspeakers:
+  sequence:
+  - service: tts.say
+    data:
+      entity_id: group.mainspeakers
+      message: '{{ message }}'
+  mode: single
+  alias: speak on mainspeakers

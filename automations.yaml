@@ -1,0 +1,184 @@
+- id: "1614398272442"
+  alias: Xander Bedtime
+  description: ""
+  trigger:
+    - platform: time
+      at: "19:00"
+  condition: []
+  action:
+    - service: tts.say
+      entity_id: group.mainspeakers
+      data:
+        message: Xander it is time to get ready for bed
+  mode: single
+- id: "1614461750665"
+  alias: Dobby full of crap
+  description: ""
+  trigger:
+    - type: turned_on
+      platform: device
+      device_id: cd3426ac03f629fee75924dac8c9d7ea
+      entity_id: binary_sensor.dobby_bin_full
+      domain: binary_sensor
+  condition: []
+  action:
+    - service: tts.say
+      entity_id: group.mainspeakers
+      data:
+        message: Dobby needs to be emptied
+  mode: single
+- id: "1614462694399"
+  alias: Clean the Main Floor
+  description: ""
+  trigger:
+    - platform: time
+      at: "13:00:00"
+  condition:
+    - condition: time
+      after: "13:00:00"
+      before: "15:00:00"
+      weekday:
+        - mon
+        - tue
+        - wed
+        - thu
+        - fri
+  action:
+    - service: tts.say
+      data:
+        entity_id: group.mainspeakers
+        message: Dobby will start cleaning in 15 minutes.
+    - delay:
+        hours: 0
+        minutes: 15
+        seconds: 0
+        milliseconds: 0
+    - domain: vacuum
+      entity_id: vacuum.dobby
+      device_id: cd3426ac03f629fee75924dac8c9d7ea
+      type: clean
+  mode: single
+- id: "1631984760113"
+  alias: Ring Battery Low
+  description: ""
+  trigger:
+    - type: battery_level
+      platform: device
+      device_id: cf05c72c7d244c16ae336a93601ccd16
+      entity_id: sensor.front_door_battery
+      domain: sensor
+      below: 10
+  condition: []
+  action:
+    - service: tts.say
+      data:
+        message: Ring battery low
+        entity_id: group.mainspeakers
+  mode: single
+- id: "1632089518742"
+  alias: Garage open at sunset
+  description: ""
+  trigger:
+    - platform: sun
+      event: sunset
+  condition:
+    - condition: state
+      entity_id: cover.crystal_s_garage_door
+      state: opened
+  action:
+    - service: tts.say
+      data:
+        message: The garage is open
+        entity_id: group.mainspeakers
+  mode: single
+- id: "1632091358209"
+  alias: Bedtime dishwasher
+  description: ""
+  trigger:
+    - platform: time
+      at: "22:00:00"
+  condition:
+    - condition: state
+      state: "off"
+      entity_id: sensor.dishwasher
+  action:
+    - service: tts.say
+      data:
+        entity_id: group.mainspeakers
+        message: Dishwasher is not started yet
+  mode: single
+- id: "1632175805770"
+  alias: Dishwasher rinse refill
+  description: ""
+  trigger:
+    - type: turned_on
+      platform: device
+      device_id: e25a18734dc74bd982856e3a20ac4e96
+      entity_id: binary_sensor.dishwasher_rinse_refill
+      domain: binary_sensor
+  condition: []
+  action:
+    - service: tts.say
+      data:
+        entity_id: group.mainspeakers
+        message: Dishwasher needs rinse refill
+  mode: single
+- id: "1634831035208"
+  alias: Workout Initiator
+  description: ""
+  trigger:
+    - platform: time
+      at: "12:00:00"
+  condition:
+    - condition: time
+      weekday:
+        - tue
+        - thu
+  action:
+    - choose:
+        - conditions:
+            - condition: device
+              device_id: 2c0111e1609f4e17b8386345b4f013ef
+              domain: media_player
+              entity_id: media_player.roku_streambar
+              type: is_off
+          sequence:
+            - type: turn_on
+              device_id: 2c0111e1609f4e17b8386345b4f013ef
+              entity_id: remote.roku_streambar
+              domain: remote
+            - delay:
+                hours: 0
+                minutes: 0
+                seconds: 30
+                milliseconds: 0
+      default: []
+    - service: media_player.select_source
+      target:
+        entity_id:
+          - media_player.roku_streambar
+      data:
+        source: '"Grokker"'
+  mode: single
+- id: "1635695424000"
+  alias: Circulate air
+  description: ""
+  trigger: []
+  condition: []
+  action:
+    - service: climate.set_fan_mode
+      target:
+        entity_id: climate.dining_room
+      data:
+        fan_mode: "on"
+    - delay:
+        hours: 0
+        minutes: 15
+        seconds: 0
+        milliseconds: 0
+    - service: climate.set_fan_mode
+      target:
+        entity_id: climate.dining_room
+      data:
+        fan_mode: "off"
+  mode: single

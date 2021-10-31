@@ -1,0 +1,7 @@
+secrets.yml
+secrets.yaml
+*.log*
+*.db*
+.storage
+.cloud
+tts/
